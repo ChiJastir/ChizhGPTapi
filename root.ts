@@ -1,23 +1,19 @@
-import ChatsController from "./controllers/chats.controller";
-
-interface IChats{
-    id: string,
-    chat_id: number
-}
-
-interface ChatInput{
-    input: {
-        chat_id: number
-    }
-}
+import ChatsController, {ChatInput} from "./controllers/chats.controller";
+import MessagesController, {MessageInput} from "./controllers/messages.controller";
 
 const root: unknown = {
     getChats: () => {
-        return ChatsController.getChats().then(res => {return res.rows})
+        return ChatsController.getChats().then(res => {return res})
     },
-    initChat: ({input}: ChatInput) => {
-        return ChatsController.initChat(input.chat_id).then(res => {return res.rows[0]})
-    }
+    initChat: (input: ChatInput) => {
+        return ChatsController.initChat(input).then(res => {return res})
+    },
+    getMessages: () => {
+        return MessagesController.getMessages().then(res => {return res})
+    },
+    addMessage: (input: MessageInput) => {
+        return MessagesController.addMessage(input).then(res => {return res})
+    },
 }
 
 export default root

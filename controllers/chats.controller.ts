@@ -1,11 +1,20 @@
-import pool from '../db'
+import {Chats} from "../sequelize";
+
+export interface ChatInput{
+    input: {
+        chat: number,
+        first_name: string,
+        last_name?: string,
+        user_name?: string
+    }
+}
 
 class ChatsController{
-    async initChat(input: number){
-        return await pool.query(`INSERT INTO chats (chat_id) VALUES (${input}) RETURNING id, chat_id`)
+    async initChat(input: ChatInput){
+        return await Chats.create(input.input, {raw: true})
     }
     async getChats(){
-        return await pool.query(`SELECT * FROM "public"."chats";`)
+        return await Chats.findAll({raw: true})
     }
 }
 export default new ChatsController()

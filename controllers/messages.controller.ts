@@ -1,6 +1,12 @@
 import {Chats, Messages} from "../sequelize";
 import {Op} from "sequelize";
 
+export interface GetMessageInput{
+    input: {
+        chat_id: number,
+    }
+}
+
 export interface MessageInput{
     input: {
         chat_id: number,
@@ -11,8 +17,10 @@ export interface MessageInput{
 }
 
 class MessagesController{
-    async getMessages(){
-        return await Messages.findAll({raw: true})
+    async getMessages(input: GetMessageInput){
+        let chat_id = await Chats.findAll({attributes: ['id'], where: {chat: input.input.chat_id}, raw: true})
+        chat_id = chat_id[0].id
+        return await Messages.findAll({where: {chat_id: chat_id}, raw: true})
     }
     async addMessage(input: MessageInput){
         let chat_id = await Chats.findAll({attributes: ['id'], where: {chat: input.input.chat_id}, raw: true})

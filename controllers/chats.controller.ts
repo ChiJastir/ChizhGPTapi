@@ -11,7 +11,12 @@ export interface ChatInput{
 
 class ChatsController{
     async initChat(input: ChatInput){
-        return await Chats.create(input.input, {raw: true})
+        const searchExistsChat = await Chats.findAll({where: {chat: input.input.chat}, raw: true})
+        if (!searchExistsChat[0]){
+            return await Chats.create(input.input, {raw: true})
+        } else {
+            return await Chats.update(input.input, {where: {chat: input.input.chat}, raw: true})
+        }
     }
     async getChats(){
         return await Chats.findAll({raw: true})

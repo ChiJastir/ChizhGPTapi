@@ -27,15 +27,19 @@ const schema: GraphQLSchema = buildSchema(`
     }
     
     input MessageInput{
-        chat_id: Int!
+        chat_id: Float!
         type: String
         role: String
         text: String!
     }
     
+    input GetMessageInput{
+        chat_id: Float!
+    }
+    
     type Query{
         getChats: [Chat]
-        getMessages: [Message]
+        getMessages(input: GetMessageInput): [Message]
     }
     
     type Mutation{

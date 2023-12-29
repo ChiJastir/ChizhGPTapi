@@ -1,5 +1,5 @@
 import ChatsController, {ChatInput} from "./controllers/chats.controller";
-import MessagesController, {MessageInput} from "./controllers/messages.controller";
+import MessagesController, {GetMessageInput, MessageInput} from "./controllers/messages.controller";
 
 const root: unknown = {
     getChats: () => {
@@ -8,8 +8,8 @@ const root: unknown = {
     initChat: (input: ChatInput) => {
         return ChatsController.initChat(input).then(res => {return res})
     },
-    getMessages: () => {
-        return MessagesController.getMessages().then(res => {return res})
+    getMessages: (input: GetMessageInput) => {
+        return MessagesController.getMessages(input).then(res => {return res})
     },
     addMessage: (input: MessageInput) => {
         return MessagesController.addMessage(input).then(res => {return res})
